@@ -7,9 +7,16 @@ const setToken = newToken => {
   token = `Bearer ${newToken}`
 }
 
-const getAll = () => {
-  const request = axios.get(baseUrl)
-  return request.then(response => response.data)
+// TÄHÄN KORJAA ETTÄ TOKEN TULEE LUETUKSI OIKEIN
+const getAll = async () => {
+  // console.log(token)
+  // const config = {
+  //   headers: { Authorization: `Bearer ${token}` }
+  // }
+  // const response =  await axios.get(baseUrl, config)
+  const response = await axios.get(baseUrl)
+
+  return response.data
 }
 
 export default { getAll, setToken }
