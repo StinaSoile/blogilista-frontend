@@ -5,6 +5,7 @@ import Login from "./components/Login";
 import CreateBlog from "./components/CreateBlog";
 import loginService from "./services/login";
 import Logout from "./components/Logout";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -15,6 +16,8 @@ const App = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
+
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     if (user) {
@@ -32,6 +35,7 @@ const App = () => {
       blogService.setToken(user.token);
     }
   }, []);
+
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
@@ -42,14 +46,24 @@ const App = () => {
       window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
       // blogService.setToken(user.token);
       setUser(user);
-      setUsername("");
-      setPassword("");
+      // setUsername("");
+      // setPassword("");
+      setNotification({
+        message: `Welcome, ${user.username}`,
+        type: "notification",
+      });
+      setTimeout(() => {
+        setNotification(null);
+      }, 5000);
     } catch (exception) {
       //   setErrorMessage("wrong credentials");
       //   setTimeout(() => {
       //     setErrorMessage(null);
       //   }, 5000);
-      console.log("Wrong credentials");
+      setNotification({ message: "Wrong credentials", type: "error" });
+      setTimeout(() => {
+        setNotification(null);
+      }, 5000);
     }
   };
 
@@ -66,8 +80,19 @@ const App = () => {
       setAuthor("");
       setUrl("");
       setBlogs(blogs.concat(blog));
+      setNotification({
+        message: `New blog ${newBlog.title} created`,
+        type: "notification",
+      });
+      setTimeout(() => {
+        setNotification(null);
+      }, 5000);
     } catch (exception) {
       console.log("exception");
+      setNotification({ message: "Could not create new blog", type: "error" });
+      setTimeout(() => {
+        setNotification(null);
+      }, 5000);
     }
   };
 
@@ -75,11 +100,11 @@ const App = () => {
     event.preventDefault();
     window.localStorage.removeItem("loggedBlogappUser");
     setUser(null);
-    return;
   };
 
   return (
     <div>
+      <Notification notification={notification} />
       {!user && (
         <Login
           handleLogin={handleLogin}
