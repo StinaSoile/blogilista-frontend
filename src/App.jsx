@@ -17,12 +17,12 @@ const App = () => {
   const [url, setUrl] = useState("");
 
   useEffect(() => {
-    // if (user) {
-    // blogService.getAll(user.token).then((blogs) => setBlogs(blogs));
-    // }
-    blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
-  // }, [user]);
+    if (user) {
+      blogService.getAll(user.token).then((blogs) => setBlogs(blogs));
+    }
+    //   blogService.getAll().then((blogs) => setBlogs(blogs));
+    // }, []);
+  }, [user]);
 
   useEffect(() => {
     const loggedUser = window.localStorage.getItem("loggedBlogappUser");
@@ -40,7 +40,7 @@ const App = () => {
         password,
       });
       window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
-      blogService.setToken(user.token);
+      // blogService.setToken(user.token);
       setUser(user);
       setUsername("");
       setPassword("");
@@ -53,9 +53,22 @@ const App = () => {
     }
   };
 
-  const handleCreateBlog = (event) => {
+  const handleCreateBlog = async (event) => {
     event.preventDefault();
-    return 1;
+    const newBlog = {
+      title,
+      author,
+      url,
+    };
+    try {
+      const blog = await blogService.createBlog(newBlog, user.token);
+      setTitle("");
+      setAuthor("");
+      setUrl("");
+      setBlogs(blogs.concat(blog));
+    } catch (exception) {
+      console.log("exception");
+    }
   };
 
   const handleLogout = (event) => {

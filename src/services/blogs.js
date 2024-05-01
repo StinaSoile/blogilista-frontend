@@ -7,16 +7,21 @@ const setToken = newToken => {
   token = `Bearer ${newToken}`
 }
 
-// TÄHÄN KORJAA ETTÄ TOKEN TULEE LUETUKSI OIKEIN
-const getAll = async () => {
-  // console.log(token)
-  // const config = {
-  //   headers: { Authorization: `Bearer ${token}` }
-  // }
-  // const response =  await axios.get(baseUrl, config)
-  const response = await axios.get(baseUrl)
+const getAll = async (token) => {
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }
+  }
+  const response = await axios.get(baseUrl, config)
 
   return response.data
 }
 
-export default { getAll, setToken }
+const createBlog = async (newObject, token) => {
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }
+  }
+  const response = await axios.post(baseUrl, newObject, config);
+  return response.data
+};
+
+export default { getAll, setToken, createBlog }
