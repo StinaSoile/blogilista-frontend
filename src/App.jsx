@@ -6,6 +6,7 @@ import CreateBlog from "./components/CreateBlog";
 import loginService from "./services/login";
 import Logout from "./components/Logout";
 import Notification from "./components/Notification";
+import Togglable from "./components/Togglable";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -52,18 +53,8 @@ const App = () => {
         message: `Welcome, ${user.username}`,
         type: "notification",
       });
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
     } catch (exception) {
-      //   setErrorMessage("wrong credentials");
-      //   setTimeout(() => {
-      //     setErrorMessage(null);
-      //   }, 5000);
       setNotification({ message: "Wrong credentials", type: "error" });
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
     }
   };
 
@@ -84,15 +75,8 @@ const App = () => {
         message: `New blog ${newBlog.title} created`,
         type: "notification",
       });
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
     } catch (exception) {
-      console.log("exception");
       setNotification({ message: "Could not create new blog", type: "error" });
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
     }
   };
 
@@ -104,7 +88,10 @@ const App = () => {
 
   return (
     <div>
-      <Notification notification={notification} />
+      <Notification
+        notification={notification}
+        setNotification={setNotification}
+      />
       {!user && (
         <Login
           handleLogin={handleLogin}
@@ -117,15 +104,17 @@ const App = () => {
       {user && (
         <>
           <Logout handleLogout={handleLogout} username={user.username} />
-          <CreateBlog
-            handleCreateBlog={handleCreateBlog}
-            title={title}
-            setTitle={setTitle}
-            author={author}
-            setAuthor={setAuthor}
-            url={url}
-            setUrl={setUrl}
-          />
+          <Togglable buttonLabel="new blog">
+            <CreateBlog
+              handleCreateBlog={handleCreateBlog}
+              title={title}
+              setTitle={setTitle}
+              author={author}
+              setAuthor={setAuthor}
+              url={url}
+              setUrl={setUrl}
+            />
+          </Togglable>
           <h2>blogs</h2>
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />

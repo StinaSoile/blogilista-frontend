@@ -1,14 +1,23 @@
-const Notification = (props) => {
+let timeoutId;
+const Notification = ({ notification, setNotification }) => {
   //   return <div>kissa</div>;
-  if (!props.notification) {
+  if (!notification) {
     return null;
   }
-  if (props.notification.type === "notification") {
-    return <div className="notif">{props.notification.message}</div>;
+
+  if (timeoutId !== undefined) {
+    clearTimeout(timeoutId);
   }
-  if (props.notification.type === "error") {
-    return <div className="error">{props.notification.message}</div>;
+
+  timeoutId = setTimeout(() => {
+    setNotification(null);
+  }, 5000);
+
+  let className = "notif";
+  if (notification.type === "error") {
+    className = "error";
   }
+  return <div className={className}>{notification.message}</div>;
 };
 
 export default Notification;
