@@ -14,9 +14,9 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
 
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
+  // const [title, setTitle] = useState("");
+  // const [author, setAuthor] = useState("");
+  // const [url, setUrl] = useState("");
 
   const [notification, setNotification] = useState(null);
 
@@ -58,27 +58,27 @@ const App = () => {
     }
   };
 
-  const handleCreateBlog = async (event) => {
-    event.preventDefault();
-    const newBlog = {
-      title,
-      author,
-      url,
-    };
-    try {
-      const blog = await blogService.createBlog(newBlog, user.token);
-      setTitle("");
-      setAuthor("");
-      setUrl("");
-      setBlogs(blogs.concat(blog));
-      setNotification({
-        message: `New blog ${newBlog.title} created`,
-        type: "notification",
-      });
-    } catch (exception) {
-      setNotification({ message: "Could not create new blog", type: "error" });
-    }
-  };
+  // const handleCreateBlog = async (event) => {
+  //   event.preventDefault();
+  //   const newBlog = {
+  //     title,
+  //     author,
+  //     url,
+  //   };
+  //   try {
+  //     const blog = await blogService.createBlog(newBlog, user.token);
+  //     setTitle("");
+  //     setAuthor("");
+  //     setUrl("");
+  //     setBlogs(blogs.concat(blog));
+  //     setNotification({
+  //       message: `New blog ${newBlog.title} created`,
+  //       type: "notification",
+  //     });
+  //   } catch (exception) {
+  //     setNotification({ message: "Could not create new blog", type: "error" });
+  //   }
+  // };
 
   const handleLogout = (event) => {
     event.preventDefault();
@@ -106,13 +106,17 @@ const App = () => {
           <Logout handleLogout={handleLogout} username={user.username} />
           <Togglable buttonLabel="new blog">
             <CreateBlog
-              handleCreateBlog={handleCreateBlog}
-              title={title}
-              setTitle={setTitle}
-              author={author}
-              setAuthor={setAuthor}
-              url={url}
-              setUrl={setUrl}
+              blogs={blogs}
+              setBlogs={setBlogs}
+              setNotification={setNotification}
+              user={user}
+              // handleCreateBlog={handleCreateBlog}
+              // title={title}
+              // setTitle={setTitle}
+              // author={author}
+              // setAuthor={setAuthor}
+              // url={url}
+              // setUrl={setUrl}
             />
           </Togglable>
           <h2>blogs</h2>

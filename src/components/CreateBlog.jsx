@@ -1,12 +1,45 @@
+import { useState } from "react";
+import blogService from "../services/blogs";
+
 const CreateBlog = ({
-  handleCreateBlog,
-  title,
-  setTitle,
-  author,
-  setAuthor,
-  url,
-  setUrl,
+  blogs,
+  setBlogs,
+  setNotification,
+  user,
+
+  // handleCreateBlog,
+  // title,
+  // setTitle,
+  // author,
+  // setAuthor,
+  // url,
+  // setUrl,
 }) => {
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [url, setUrl] = useState("");
+
+  const handleCreateBlog = async (event) => {
+    event.preventDefault();
+    const newBlog = {
+      title,
+      author,
+      url,
+    };
+    try {
+      const blog = await blogService.createBlog(newBlog, user.token);
+      setTitle("");
+      setAuthor("");
+      setUrl("");
+      setBlogs(blogs.concat(blog));
+      setNotification({
+        message: `New blog ${newBlog.title} created`,
+        type: "notification",
+      });
+    } catch (exception) {
+      setNotification({ message: "Could not create new blog", type: "error" });
+    }
+  };
   return (
     <>
       <h2>Create new blog</h2>
