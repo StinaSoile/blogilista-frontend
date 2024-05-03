@@ -18,10 +18,7 @@ const App = () => {
 
   useEffect(() => {
     if (user) {
-      blogService
-        .getAll(user.token)
-        .then((blogs) => setBlogs(blogs))
-        .then(console.log(blogs));
+      blogService.getAll(user.token).then((blogs) => setBlogs(blogs));
     }
   }, [user]);
 
@@ -61,6 +58,34 @@ const App = () => {
     setUser(null);
   };
 
+  const handleLike = async (blog) => {
+    let likedBlog = {
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes + 1,
+      user: "no user",
+    };
+    if (blog.user) {
+      likedBlog = {
+        title: blog.title,
+        author: blog.author,
+        url: blog.url,
+        likes: blog.likes + 1,
+        user: blog.user.id,
+      };
+    }
+    const changedBlog = await blogService.likeBlog(
+      blog.id,
+      likedBlog,
+      user.token
+    );
+    console.log(changedBlog);
+
+    const newBlogs = await blogService.getAll(user.token);
+    setBlogs(newBlogs);
+  };
+
   return (
     <div>
       <Notification
@@ -89,7 +114,7 @@ const App = () => {
           </Togglable>
           <h2>blogs</h2>
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} currUser={user} />
+            <Blog key={blog.id} blog={blog} handleLike={handleLike} />
           ))}
         </>
       )}

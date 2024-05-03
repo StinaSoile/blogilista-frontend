@@ -1,7 +1,7 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
 
-const Blog = ({ blog, currUser }) => {
+const Blog = ({ blog, handleLike }) => {
   const [expand, setExpand] = useState(false);
   let creator;
   if (!blog.user) {
@@ -11,32 +11,6 @@ const Blog = ({ blog, currUser }) => {
   }
   const handleExpand = () => {
     setExpand(!expand);
-  };
-
-  // EI OLE HAJALLA MUTTA EI TEE MITÄÄN JÄRKEVÄÄKÄÄN
-  // - tee frontin blogit päivittymään kun tehdään muutos
-  const handleLike = async () => {
-    let likedBlog = {
-      title: blog.title,
-      author: blog.author,
-      url: blog.url,
-      likes: blog.likes + 1,
-      user: "no user",
-    };
-    if (blog.user) {
-      likedBlog = {
-        title: blog.title,
-        author: blog.author,
-        url: blog.url,
-        likes: blog.likes + 1,
-        user: blog.user.id,
-      };
-    }
-    const changedBlog = await blogService.likeBlog(
-      blog.id,
-      likedBlog,
-      currUser.token
-    );
   };
 
   if (expand === false) {
@@ -55,7 +29,7 @@ const Blog = ({ blog, currUser }) => {
         <p>url: {blog.url}</p>
         <p>
           Likes: {blog.likes}
-          <button onClick={handleLike}>like</button>
+          <button onClick={() => handleLike(blog)}>like</button>
         </p>
         <p>Created by: {creator}</p>
         <button onClick={handleExpand}>hide</button>
