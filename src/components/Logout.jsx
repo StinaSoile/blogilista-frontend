@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const Logout = ({ handleLogout, username }) => {
   return (
     <>
@@ -8,5 +10,8 @@ const Logout = ({ handleLogout, username }) => {
     </>
   );
 };
-
+Logout.propTypes = {
+  handleLogout: PropTypes.func,
+  username: PropTypes.string,
+};
 export default Logout;

@@ -2,11 +2,6 @@ import axios from 'axios'
 // const baseUrl = '/api/blogs'
 const baseUrl = 'http://localhost:3001/api/blogs'
 
-let token = null
-const setToken = newToken => {
-  token = `Bearer ${newToken}`
-}
-
 const getAll = async (token) => {
   const config = {
     headers: { Authorization: `Bearer ${token}` }
@@ -40,4 +35,4 @@ const deleteBlog = async (id, token) => {
   return response.data
 }
 
-export default { getAll, setToken, createBlog, likeBlog, deleteBlog }
+export default { getAll, createBlog, likeBlog, deleteBlog }

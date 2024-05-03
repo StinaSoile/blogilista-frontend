@@ -2,8 +2,6 @@ import { useState } from "react";
 import blogService from "../services/blogs";
 
 const CreateBlog = ({
-  blogs,
-  setBlogs,
   setNotification,
   user,
   fetchBlogs,
@@ -27,7 +25,7 @@ const CreateBlog = ({
       url,
     };
     try {
-      const blog = await blogService.createBlog(newBlog, user.token);
+      await blogService.createBlog(newBlog, user.token);
       setTitle("");
       setAuthor("");
       setUrl("");

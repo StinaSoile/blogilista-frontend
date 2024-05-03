@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 let timeoutId;
 const Notification = ({ notification, setNotification }) => {
   //   return <div>kissa</div>;
@@ -18,6 +20,11 @@ const Notification = ({ notification, setNotification }) => {
     className = "error";
   }
   return <div className={className}>{notification.message}</div>;
+};
+
+Notification.propTypes = {
+  notification: PropTypes.any,
+  setNotification: PropTypes.func,
 };
 
 export default Notification;

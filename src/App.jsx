@@ -27,7 +27,6 @@ const App = () => {
     if (loggedUser) {
       const user = JSON.parse(loggedUser);
       setUser(user);
-      blogService.setToken(user.token);
     }
   }, []);
 
@@ -48,7 +47,6 @@ const App = () => {
       });
 
       window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
-      blogService.setToken(user.token);
       setUser(user);
       // setUsername("");
       // setPassword("");
@@ -76,11 +74,7 @@ const App = () => {
       user: blog.user.id,
     };
 
-    const changedBlog = await blogService.likeBlog(
-      blog.id,
-      likedBlog,
-      user.token
-    );
+    await blogService.likeBlog(blog.id, likedBlog, user.token);
     fetchBlogs();
     // const newBlogs = await blogService.getAll(user.token);
     // setBlogs(newBlogs);
