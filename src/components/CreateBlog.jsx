@@ -6,7 +6,7 @@ const CreateBlog = ({
   setBlogs,
   setNotification,
   user,
-
+  fetchBlogs,
   // handleCreateBlog,
   // title,
   // setTitle,
@@ -31,11 +31,11 @@ const CreateBlog = ({
       setTitle("");
       setAuthor("");
       setUrl("");
-      setBlogs(blogs.concat(blog));
       setNotification({
         message: `New blog ${newBlog.title} created`,
         type: "notification",
       });
+      fetchBlogs();
     } catch (exception) {
       setNotification({ message: "Could not create new blog", type: "error" });
     }

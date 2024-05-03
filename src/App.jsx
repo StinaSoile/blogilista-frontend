@@ -87,10 +87,12 @@ const App = () => {
   };
 
   const handleDelete = async (blog) => {
-    if (blog.user.username === user.username) {
+    if (
+      blog.user.username === user.username &&
+      window.confirm(`Do you want to delete blog ${blog.title}?`)
+    ) {
       try {
         const deletedBlog = await blogService.deleteBlog(blog.id, user.token);
-        console.log("delete");
         setNotification({
           message: `Blog ${deletedBlog} is removed`,
           type: "notification",
@@ -129,17 +131,24 @@ const App = () => {
               setBlogs={setBlogs}
               setNotification={setNotification}
               user={user}
+              fetchBlogs={fetchBlogs}
             />
           </Togglable>
           <h2>blogs</h2>
           {blogs.map((blog) => (
-            <Blog
+            <div
               key={blog.id}
-              blog={blog}
-              handleLike={handleLike}
-              handleDelete={handleDelete}
-              user={user}
-            />
+              style={{
+                padding: "2px",
+              }}
+            >
+              <Blog
+                blog={blog}
+                handleLike={handleLike}
+                handleDelete={handleDelete}
+                user={user}
+              />
+            </div>
           ))}
         </>
       )}
