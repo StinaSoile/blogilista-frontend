@@ -46,6 +46,7 @@ const App = () => {
         username,
         password,
       });
+
       window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
       blogService.setToken(user.token);
       setUser(user);
@@ -67,31 +68,41 @@ const App = () => {
   };
 
   const handleLike = async (blog) => {
-    let likedBlog = {
+    const likedBlog = {
       title: blog.title,
       author: blog.author,
       url: blog.url,
       likes: blog.likes + 1,
-      user: "no user",
+      user: blog.user.id,
     };
-    if (blog.user) {
-      likedBlog = {
-        title: blog.title,
-        author: blog.author,
-        url: blog.url,
-        likes: blog.likes + 1,
-        user: blog.user.id,
-      };
-    }
+
     const changedBlog = await blogService.likeBlog(
       blog.id,
       likedBlog,
       user.token
     );
-    console.log(changedBlog);
     fetchBlogs();
     // const newBlogs = await blogService.getAll(user.token);
     // setBlogs(newBlogs);
+  };
+
+  const handleDelete = async (blog) => {
+    if (blog.user.username === user.username) {
+      try {
+        const deletedBlog = await blogService.deleteBlog(blog.id, user.token);
+        console.log("delete");
+        setNotification({
+          message: `Blog ${deletedBlog} is removed`,
+          type: "notification",
+        });
+      } catch (exception) {
+        setNotification({
+          message: `Could not remove blog`,
+          type: "error",
+        });
+      }
+      fetchBlogs();
+    }
   };
 
   return (
@@ -122,7 +133,13 @@ const App = () => {
           </Togglable>
           <h2>blogs</h2>
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} handleLike={handleLike} />
+            <Blog
+              key={blog.id}
+              blog={blog}
+              handleLike={handleLike}
+              handleDelete={handleDelete}
+              user={user}
+            />
           ))}
         </>
       )}

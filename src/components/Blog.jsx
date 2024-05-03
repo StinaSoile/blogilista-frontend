@@ -1,14 +1,15 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
 
-const Blog = ({ blog, handleLike }) => {
+const Blog = ({ blog, handleLike, handleDelete, user }) => {
   const [expand, setExpand] = useState(false);
-  let creator;
-  if (!blog.user) {
-    creator = "no user";
-  } else {
-    creator = blog.user.username;
+  let visible = false;
+  if (blog.user.username === user.username) {
+    visible = true;
   }
+  const hide = { display: visible ? "" : "none" };
+
+  const creator = blog.user.username;
   const handleExpand = () => {
     setExpand(!expand);
   };
@@ -32,6 +33,10 @@ const Blog = ({ blog, handleLike }) => {
           <button onClick={() => handleLike(blog)}>like</button>
         </p>
         <p>Created by: {creator}</p>
+        <button style={hide} onClick={() => handleDelete(blog)}>
+          delete
+        </button>
+
         <button onClick={handleExpand}>hide</button>
       </div>
     );
