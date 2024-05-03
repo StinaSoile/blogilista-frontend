@@ -18,7 +18,7 @@ const App = () => {
 
   useEffect(() => {
     if (user) {
-      blogService.getAll(user.token).then((blogs) => setBlogs(blogs));
+      fetchBlogs();
     }
   }, [user]);
 
@@ -30,6 +30,14 @@ const App = () => {
       blogService.setToken(user.token);
     }
   }, []);
+
+  const fetchBlogs = async () => {
+    const blogList = await blogService.getAll(user.token);
+    blogList.sort((a, b) => {
+      return b.likes - a.likes;
+    });
+    setBlogs(blogList);
+  };
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -81,9 +89,9 @@ const App = () => {
       user.token
     );
     console.log(changedBlog);
-
-    const newBlogs = await blogService.getAll(user.token);
-    setBlogs(newBlogs);
+    fetchBlogs();
+    // const newBlogs = await blogService.getAll(user.token);
+    // setBlogs(newBlogs);
   };
 
   return (
