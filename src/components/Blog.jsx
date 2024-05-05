@@ -15,8 +15,10 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
 
   if (expand === false) {
     return (
-      <div>
-        {blog.title} {blog.author}
+      <div className="blog">
+        <div>
+          {blog.title} {blog.author}
+        </div>
         <button onClick={handleExpand}>view</button>
       </div>
     );
