@@ -145,9 +145,3 @@ test("if like twice, call handler twice", async () => {
 
   expect(mockHandler.mock.calls).toHaveLength(2);
 });
-
-/*5.16:
-Tee uuden blogin luomisesta huolehtivalle lomakkeelle testi,
-joka varmistaa, että lomake kutsuu propsina saamaansa takaisinkutsufunktiota
-oikeilla tiedoilla siinä vaiheessa kun blogi luodaan.
-*/

@@ -121,8 +121,8 @@ const App = () => {
           <Logout handleLogout={handleLogout} username={user.username} />
           <Togglable buttonLabel="new blog">
             <CreateBlog
-              blogs={blogs}
-              setBlogs={setBlogs}
+              // blogs={blogs}
+              // setBlogs={setBlogs}
               setNotification={setNotification}
               user={user}
               fetchBlogs={fetchBlogs}
