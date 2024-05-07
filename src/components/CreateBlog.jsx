@@ -45,6 +45,7 @@ const CreateBlog = ({
         <div>
           title
           <input
+            data-testid="title"
             type="text"
             placeholder="title"
             value={title}
@@ -55,6 +56,7 @@ const CreateBlog = ({
         <div>
           author
           <input
+            data-testid="author"
             type="text"
             placeholder="author"
             value={author}
@@ -65,6 +67,7 @@ const CreateBlog = ({
         <div>
           url
           <input
+            data-testid="url"
             type="text"
             placeholder="url"
             value={url}
@@ -72,7 +75,9 @@ const CreateBlog = ({
             onChange={({ target }) => setUrl(target.value)}
           />
         </div>
-        <button type="submit">create</button>
+        <button data-testid="createbutton" type="submit">
+          create
+        </button>
       </form>
     </>
   );

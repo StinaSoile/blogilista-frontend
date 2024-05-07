@@ -59,9 +59,15 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
             </tr>
           </tbody>
         </table>
-        <button onClick={handleExpand}>hide</button>
+        <button data-testid="hideBlog" onClick={handleExpand}>
+          hide
+        </button>
 
-        <button style={hide} onClick={() => handleDelete(blog)}>
+        <button
+          data-testid="deleteBlog"
+          style={hide}
+          onClick={() => handleDelete(blog)}
+        >
           delete
         </button>
       </div>

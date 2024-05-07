@@ -18,7 +18,9 @@ const Togglable = (props) => {
       </div>
       <div style={show}>
         {props.children}
-        <button onClick={toggle}>cancel</button>
+        <button onClick={toggle} data-testid="canceltoggle">
+          cancel
+        </button>
       </div>
     </div>
   );

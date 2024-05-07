@@ -5,7 +5,9 @@ const Logout = ({ handleLogout, username }) => {
     <>
       <form onSubmit={handleLogout}>
         Logged in as {username}
-        <button type="submit">logout</button>
+        <button data-testid="logout" type="submit">
+          logout
+        </button>
       </form>
     </>
   );
